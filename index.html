@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechPulse - Your Weekly Tech Newsletter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+
+        .subscribe-btn {
+            background: white;
+            color: #667eea;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .subscribe-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .hero {
+            background: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .hero h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .subscribe-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .subscribe-form input {
+            flex: 1;
+            min-width: 250px;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .subscribe-form input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .subscribe-form button {
+            padding: 1rem 2rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .subscribe-form button:hover {
+            background: #5568d3;
+        }
+
+        .posts {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .post-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .post-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .post-content {
+            padding: 1.5rem;
+        }
+
+        .post-date {
+            color: #999;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .post-excerpt {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .read-more {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .read-more:hover {
+            color: #5568d3;
+        }
+
+        footer {
+            background: #2d3748;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 400px;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .close-modal {
+            margin-top: 1rem;
+            padding: 0.5rem 2rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .posts {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div>
+                    <h1>TechPulse</h1>
+                    <p class="tagline">Stay ahead with the latest in technology</p>
+                </div>
+                <button class="subscribe-btn" onclick="scrollToSubscribe()">Subscribe Now</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>Join 10,000+ Tech Enthusiasts</h2>
+            <p>Get weekly insights on AI, software development, emerging technologies, and industry trends delivered straight to your inbox.</p>
+            <form class="subscribe-form" onsubmit="handleSubscribe(event)">
+                <input type="email" id="emailInput" placeholder="Enter your email address" required>
+                <button type="submit">Subscribe Free</button>
+            </form>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="posts">
+            <article class="post-card">
+                <div class="post-image">🤖</div>
+                <div class="post-content">
+                    <p class="post-date">December 26, 2025</p>
+                    <h3 class="post-title">The Rise of AI Agents in 2025</h3>
+                    <p class="post-excerpt">Exploring how autonomous AI agents are transforming industries and what it means for developers and businesses in the coming year.</p>
+                    <a href="#" class="read-more">Read more →</a>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-image">⚡</div>
+                <div class="post-content">
+                    <p class="post-date">December 23, 2025</p>
+                    <h3 class="post-title">Lightning-Fast Web Apps with Edge Computing</h3>
+                    <p class="post-excerpt">A deep dive into edge computing architecture and how it's revolutionizing web application performance worldwide.</p>
+                    <a href="#" class="read-more">Read more →</a>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-image">🔐</div>
+                <div class="post-content">
+                    <p class="post-date">December 20, 2025</p>
+                    <h3 class="post-title">Zero-Trust Security: Essential Guide</h3>
+                    <p class="post-excerpt">Understanding zero-trust architecture and implementing best practices for securing modern cloud-native applications.</p>
+                    <a href="#" class="read-more">Read more →</a>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-image">💻</div>
+                <div class="post-content">
+                    <p class="post-date">December 18, 2025</p>
+                    <h3 class="post-title">Building Scalable Microservices</h3>
+                    <p class="post-excerpt">Lessons learned from building microservices at scale, including architecture patterns and common pitfalls to avoid.</p>
+                    <a href="#" class="read-more">Read more →</a>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-image">🌐</div>
+                <div class="post-content">
+                    <p class="post-date">December 15, 2025</p>
+                    <h3 class="post-title">Web3 Development in Practice</h3>
+                    <p class="post-excerpt">A practical guide to building decentralized applications with real-world examples and deployment strategies.</p>
+                    <a href="#" class="read-more">Read more →</a>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-image">📊</div>
+                <div class="post-content">
+                    <p class="post-date">December 12, 2025</p>
+                    <h3 class="post-title">Data Engineering Best Practices</h3>
+                    <p class="post-excerpt">Optimizing data pipelines for performance and reliability while managing costs in cloud infrastructure.</p>
+                    <a href="#" class="read-more">Read more →</a>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 TechPulse Newsletter. All rights reserved.</p>
+            <p style="margin-top: 0.5rem; opacity: 0.8;">Delivering tech insights weekly</p>
+        </div>
+    </footer>
+
+    <div class="modal" id="subscribeModal">
+        <div class="modal-content">
+            <h3>🎉 Welcome to TechPulse!</h3>
+            <p>Thank you for subscribing! Check your email for a confirmation link.</p>
+            <button class="close-modal" onclick="closeModal()">Got it!</button>
+        </div>
+    </div>
+
+    <script>
+        function scrollToSubscribe() {
+            document.querySelector('.hero').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('emailInput').focus();
+        }
+
+        function handleSubscribe(event) {
+            event.preventDefault();
+            const email = document.getElementById('emailInput').value;
+            
+            // Here you would typically send the email to your backend
+            console.log('Subscribing email:', email);
+            
+            // Show success modal
+            document.getElementById('subscribeModal').classList.add('active');
+            
+            // Clear the form
+            document.getElementById('emailInput').value = '';
+        }
+
+        function closeModal() {
+            document.getElementById('subscribeModal').classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('subscribeModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
